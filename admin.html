@@ -121,7 +121,7 @@
         </div>
     </div>
     <script>
-        function handleSubmit(e) {
+        async function handleSubmit(e) {
             e.preventDefault();
             const form = e.target;
             const data = {
@@ -141,18 +141,18 @@
 
             }
 
-            fetch('http://localhost:9000/products', {
+          const response= fetch('http://localhost:9000/products', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
                     token: localStorage.getItem('token'),
                     'content-type': 'application/json'
                 }
-            }).then(response => {
+            }).then(async response => {
 
-                const data = response.json()
-                console.log(data.messege)
-                alert(data.messege)
+                const data = await response.json()
+                console.log(data.message)
+                alert(data.message)
 
             }).catch((err) => {
                 alert("product add failed")
