@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+
+        <div class="space-y-4">
+          
+            <!-- Email -->
+            <input type="email" placeholder="Email"
+                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                id="email" />
+
+            <!-- Password -->
+            <input type="password" placeholder="Password"
+                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                id="password" />
+
+
+
+
+            <!-- Submit Button -->
+            <button onclick="submit(event)" type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                log In
+            </button>
+        </div>
+
+        <!-- Sign In Link -->
+        <p class="mt-4 text-center text-sm">
+            Don't have an account?
+            <a href="/signup.html" class="text-blue-600 hover:underline">Sign up</a>
+        </p>
+    </div>
+    <script>
+        function submit(e) {
+          
+            const emailInput = document.getElementById('email')
+            const passwordInput = document.getElementById('password')
+           
+
+    
+            if (emailInput.value === '') {
+                alert("email is required")
+                return
+            }
+
+            if (passwordInput.value === '') {
+                alert("password is required")
+                return
+            }
+
+  
+      
+            const body={
+                email:emailInput.value,
+                password:passwordInput.value
+            }
+            
+            console.log(body)
+            fetch("http://localhost:9000/auth/signin",{
+                method:'POST',
+                body:JSON.stringify(body),
+                headers:{
+                    'content-type':'application/json'
+                }
+            }).then(async (Response)=>{
+                const  data=await Response.json()
+             //   alert(data.message)
+                console.log(data)
+              if(data.failed){
+                alert("login failed")
+              }
+              else{
+                localStorage.setItem("token",data.token)
+                window.location.href='/index.html'
+                
+              }
+              
+            }) //pinnem home page kk povn vendi
+
+
+        }
+    </script>
+
+</body>
+
+</html>
