@@ -136,23 +136,39 @@
                 color: form.color.value,
                 releaseDate: form.releaseDate.value,
             
-                Image: form.imageUpload.value
-              
-
             }
 
-          const response= fetch('http://localhost:9000/products', {
+                const imageFile = document.getElementById('imageUpload')        
+                const file = imageFile.files[0]
+
+                const formData = new FormData()
+                formData.set('name', data.name)
+                formData.set('price', data.price)
+                formData.set('Ram', data.Ram )
+                formData.set('Storage', data.Storage)
+                formData.set('battery', data.battery)
+                formData.set('displaySize', data.displaySize)
+                formData.set('camera', data.camera)
+                formData.set('os', data.os)
+                formData.set('color', data.color)
+                formData.set('releaseDate', data.releaseDate)
+                formData.set('file', file)
+
+                
+
+
+           fetch('http://localhost:9000/products', {
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: formData,
                 headers: {
-                    token: localStorage.getItem('token'),
-                    'content-type': 'application/json'
+                    token: localStorage.getItem('token')
                 }
             }).then(async response => {
 
                 const data = await response.json()
-                console.log(data.message)
+             
                 alert(data.message)
+                form.reset();
 
             }).catch((err) => {
                 alert("product add failed")
